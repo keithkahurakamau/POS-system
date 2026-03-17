@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from app.database import Base
 
 class Sale(Base):
@@ -10,7 +10,7 @@ class Sale(Base):
     payment_method = Column(String)
     mpesa_receipt_number = Column(String, nullable=True)
     transaction_status = Column(String, default="PENDING")
-    sale_date = Column(DateTime, default=datetime.utcnow)
+    sale_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     items = relationship("SaleItem", back_populates="sale", cascade="all, delete-orphan")
     payment = relationship("Payment", back_populates="sale", uselist=False)

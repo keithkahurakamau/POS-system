@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from app.database import Base
 
 class Product(Base):
@@ -15,7 +15,7 @@ class Product(Base):
     supplier_name = Column(String)
     sku = Column(String, unique=True, index=True)
     image_url = Column(String)
-    date_added = Column(DateTime, default=datetime.utcnow)
+    date_added = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     inventory_logs = relationship("InventoryLog", back_populates="product")
     sale_items = relationship("SaleItem", back_populates="product")

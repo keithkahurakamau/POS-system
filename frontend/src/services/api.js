@@ -11,12 +11,18 @@ const apiClient = axios.create({
 
 export const ProductAPI = {
     getAll: () => apiClient.get('/api/products/'),
+    getOne: (id) => apiClient.get(`/api/products/${id}`),
     create: (formData) => apiClient.post('/api/products/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
-    })
+    }),
+    update: (id, formData) => apiClient.put(`/api/products/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }),
+    delete: (id) => apiClient.delete(`/api/products/${id}`)
 };
 
 export const SaleAPI = {
+    getAll: () => apiClient.get('/api/sales/'),
     create: (saleData) => apiClient.post('/api/sales/', saleData),
     getById: (saleId) => apiClient.get(`/api/sales/${saleId}`)
 };

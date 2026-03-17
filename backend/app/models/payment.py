@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from app.database import Base
 
 class Payment(Base):
@@ -12,6 +12,6 @@ class Payment(Base):
     mpesa_receipt_number = Column(String, nullable=True)
     transaction_id = Column(String, unique=True, index=True)
     payment_status = Column(String, default="PENDING")
-    payment_date = Column(DateTime, default=datetime.utcnow)
+    payment_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
     sale = relationship("Sale", back_populates="payment")
